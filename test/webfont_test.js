@@ -140,7 +140,7 @@ exports.webfont = {
 				startCodepoint = 0x41;
 
 			parseXMLString(svgSource, function(err, result) {
-				// Normalise glyphs into JS objects				
+				// Normalise glyphs into JS objects
 				result.svg.defs[0].font[0].glyph.forEach(function(glyph) {
 					glyphs.push(glyph.$);
 				});
@@ -149,9 +149,9 @@ exports.webfont = {
 				// - each glyph's unicode character is consecutively incremented starting from the startCodepoint above
 				// - the correct glyph character code is present in the generated CSS
 				for (var index = 0; index < glyphs.length; index ++) {
-					test.equals(glyphs[index].unicode, String.fromCharCode(startCodepoint + index), 'Character at index ' + index + ' is at the correct code point');
+					test.equals(glyphs[index].unicode, String.fromCharCode(parseInt(startCodepoint + index, 16)), 'Character at index ' + index + ' is at the correct code point');
 					test.ok(
-						find(css, 'content:"\\' + (startCodepoint + index).toString(16) + '"'),
+						find(css, 'content:"\\' + parseInt(startCodepoint + index, 16).toString(16) + '"'),
 						'Character at index ' + index + ' has its codepoint in the CSS'
 					);
 				}
@@ -623,7 +623,7 @@ exports.webfont = {
 		});
 		test.done();
 	},
-	
+
 	ie7_bootstrap: function(test){
 		var css = grunt.file.read('test/tmp/ie7_bootstrap/icons.css');
 		var svgs = grunt.file.expand('test/src/*.svg');
